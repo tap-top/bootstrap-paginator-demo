@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap-paginator.js"></script>
+</head>
+<body>
+	<ul id="example"></ul>
+    <input id="change" class="form-control" style="width:50px;"/>
+    <div id="alert-content"></div>
+<script type="text/javascript">
+    $('#change').bind('keypress',function(e){
+        if(e.keyCode=="13"){
+            if($(this)[0].value>options.totalPages || $(this)[0] < 0) {
+                alert("数值超过范围")
+            }else{
+                //显示输入的页码
+                $("#example").bootstrapPaginator("show",$(this)[0].value);
+            }
+        }
+    });
+    //注：参数type表示类型，有五种（"first"（首页）,"prev"（上一页）,"next"（下一页）,"last"（尾页），"page"(页数）),参数page值表示是第几页
+    //$("#example").bootstrapPaginator("showFirst"); //定位到首页
+    //$("#example").bootstrapPaginator("showPrevious"); //定位到当前的前一页
+    //同上 showNext:下一页；showLast：尾页；
+    //$("#example").bootstrapPaginator("show",3);//显示第3页
+    //var nowpage = $("#example").bootstrapPaginator("getPages");返回当前页
+    //$('#example').bootstrapPaginator("setOptions",newoptions);使用新的option重置
+    var options={
+        size:"large",//默认正常；还有参数：mini;small;large  //mini在bootstrap3中不可使用
+        bootstrapMajorVersion:3,//在bootstrap3 的版本使用 并且html中是<ul class=""></ul>
+        alignment:"left",//默认左对齐；还有参数：left，center，right
+        currentPage:4,//当前显示页
+        totalPages:20,//总页数
+        numberOfPages:5,//控件显示的页面数
+        /**
+         * 设置操作按钮显示的文字
+         * @param type
+         * @param page 对应页数，如：1,2,3,4,5，可以修改成"p"+page ,则显示是p1,p2,p3,p4,p5
+         * @param current 当前页
+         * @returns {*}
+         */
+        itemTexts: function (type, page, current) {
+            switch (type) {
+                case "first":
+                    return "首页";
+                case "prev":
+                    return "前一页";
+                case "next":
+                    return "下一页";
+                case "last":
+                    return "尾页";
+                case "page":
+                    return page;//可修改：如return "p"+page;
+            }
+        },
+        /**
+         * 设置操作按钮的title属性(鼠标放到按钮上显示的文字）
+         * @param type
+         * @param page 对应页数
+         * @param current 当前页
+         * @returns {*}
+         */
+        tooltipTitles: function (type, page, current) {
+            switch (type) {
+                case "first":
+                    return "首页";
+                case "prev":
+                    return "前一页";
+                case "next":
+                    return "下一页";
+                case "last":
+                    return "尾页";
+                case "page":
+                    return page;//可修改：如return "p"+page;
+            }
+        },
+        /**
+         * 设置鼠标移入按钮的样式
+         * @param type
+         * @param page 组件显示的页码
+         * @param current 当前选中的页码
+         * @returns {string} 如果鼠标移入的页码是选中的页面修改样式
+         */
+        itemContainerClass: function (type, page, current) {
+            return (page === current) ? "active" : "pointer-cursor";
+        },
+
+        /**
+         * 设置每个按钮对应的链接（实际上每个按钮都是一个a标签）
+         * @param type
+         * @param page 链接上显示页码的值
+         * @param current 链接上全部显示当前的页码
+         * @returns {string}
+         */
+        pageUrl: function(type, page, current){
+            return "#";
+            //如：return "http://www.baid.com/"+page
+            //如：return "http://www.baid.com/"+current
+        },
+        /**
+         *鼠标点击其他非当前的页触发的事件
+         * @param e 相当于this
+         * @param oldPage 之前选中页
+         * @param newPage 现在选中页
+         */
+        onPageChanged: function(e,oldPage,newPage){
+            //根据这个函数触发事件
+            $('#alert-content').text("Current page changed, old: "+oldPage+" new: "+newPage);
+        }
+    };
+    //使用这条语句初始化
+    $("#example").bootstrapPaginator(options);
+</script>
+</body>
+</html>
